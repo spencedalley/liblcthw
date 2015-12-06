@@ -9,7 +9,7 @@ OBJECTS=$(patsubst %.c,%.o,$(SOURCES)) # make anything .c to .o
 TEST_SRC=$(wildcard tests/*_tests.c)
 TESTS=$(patsubst %.c,%,$(TEST_SRC))
 
-TARGET=build/libYOUR_LIBRARY.a
+TARGET=build/liblcthw.a
 SO_TARGET=$(patsubst %.a,%.so,$(TARGET))
 
 # The Target build
