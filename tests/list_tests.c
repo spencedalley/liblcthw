@@ -94,9 +94,43 @@ char *test_shift()
     return NULL;
 }
 
+char *test_copy()
+{
+    mu_assert(List_count(list2) == 0, "Wrong count beginning copy.");
+
+    List_push(list2, test1);
+    List_push(list2, test2);
+    List_push(list2, test3);
+    mu_assert(List_count(list2) == 3, "Wrong count on push.");
+
+    List *copy_list = List_copy(list2);
+
+    mu_assert(List_first(list2) == List_first(copy_list), "First element copy failed.");
+    mu_assert(List_last(list2) == List_last(copy_list), "Last element copy failed.");
+
+    // Changing one element
+    list2->first->value = "TESTING";
+    mu_assert(List_first(list2) != List_first(copy_list), "Improperly copied.");
+
+    return NULL;
+}
+
 char *test_join()
 {
-    
+    mu_assert(List_count(list2) == 3, "Wrong count beginning copy.");
+
+    // Just going to join list2 twice
+    List *joined_list = List_join(list2, list2);
+
+    mu_assert(List_first(list2) == List_first(joined_list),
+            "Wrong first element on join.");
+    mu_assert(List_count(joined_list) == List_count(list2) + List_count(list2),
+            "Wrong count after join.");
+    return NULL;
+}
+
+char *test_split()
+{
     return NULL;
 }
 
@@ -110,7 +144,9 @@ char *all_tests()
     mu_run_test(test_remove);
     mu_run_test(test_shift);
     mu_run_test(test_destroy);
+    mu_run_test(test_copy);
     mu_run_test(test_join);
+    mu_run_test(test_split); 
 
     return NULL;
 }
