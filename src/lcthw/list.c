@@ -1,5 +1,7 @@
 #include <lcthw/list.h>
 #include <lcthw/dbg.h>
+#include <stdio.h>
+#include <string.h>
 
 List *List_create()
 {
@@ -36,8 +38,6 @@ void List_clear_destroy(List * list)
     }
     free(list->last);
     free(list);
-    // List_clear(list);
-    // List_destroy(list);
 }
 
 void List_push(List * list, void *value)
@@ -131,18 +131,46 @@ error:
     return result;
 }
 
+List *List_copy(List * list)
+{
+    List * copy_list = List_create();
 
-List *List_join(List *list1, List *list2)
+    LIST_FOREACH(list, first, next, cur) {
+        List_push(copy_list, cur->value);
+    }
+
+    return copy_list;
+}
+
+void *List_add(List * from_list, List * to_list)
+{
+    LIST_FOREACH(from_list, first, next, cur) {
+        List_push(to_list, cur->value);
+    }
+}
+
+List *List_join(List * list1, List * list2)
 {
     List *joined_list = List_create();
 
-    joined_list->first = list1->first;
-    joined_list->last = list2->last;
+    List_add(list1, joined_list);
+    List_add(list2, joined_list);
 
     return joined_list;
 }
 
-List *List_split(List * list1, List * list2)
+List *List_split(List * list, int index)
 {
-    
+    // How do you return multiple structs?
+
+    List * list1 = List_create(); // First list for split
+    //List * list2 = List_create(); // second list for split
+
+    check(index < List_count(list) && index > 0,
+        "Index out of bounds: %d", index);
+
+    return list1;
+
+error:
+    return list;
 }

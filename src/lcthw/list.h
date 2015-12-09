@@ -16,7 +16,7 @@ typedef struct ListNode {
 
 /**
  * List that has a count of elements and points to
- * the first and last elements of the List. 
+ * the first and last elements of the List.
  */
 typedef struct List {
     int count;
@@ -41,8 +41,10 @@ void *List_shift(List * list);
 
 void *List_remove(List * list, ListNode * node);
 
-List *List_join(List * list1, List * list2); 
-List *List_split(List * list); 
+void *List_add(List * from_list, List * to_list); 
+List *List_copy(List * list);
+List *List_join(List * list1, List * list2);
+List *List_split(List * list, int index);
 
 #define LIST_FOREACH(L, S, M, V) ListNode *_node = NULL;\
                                 ListNode *V = NULL;\
