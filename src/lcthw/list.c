@@ -147,6 +147,8 @@ void *List_add(List * from_list, List * to_list)
     LIST_FOREACH(from_list, first, next, cur) {
         List_push(to_list, cur->value);
     }
+
+    return NULL; 
 }
 
 List *List_join(List * list1, List * list2)
