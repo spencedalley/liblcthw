@@ -1,5 +1,5 @@
-#ifndef _Darray_h
-#define _Darray_h
+#ifndef _DArray_h
+#define _DArray_h
 #include <stdlib.h>
 #include <assert.h>
 #include <lcthw/dbg.h>
@@ -12,7 +12,7 @@ typedef struct DArray {
     void **contents;
 } DArray;
 
-DArray *DArray_create(size_t element_key, size_t initial_max);
+DArray *DArray_create(size_t element_size, size_t initial_max);
 
 void DArray_destroy(DArray * array);
 
@@ -38,8 +38,8 @@ void DArray_clear_destroy(DArray * array);
 
 static inline void DArray_set(DArray * array, int i, void *el)
 {
-    check(i < array->max, "darray attempt to set past max.");
-    if(i > array->end)
+    check(i < array->max, "darray attempt to set past max");
+    if (i > array->end)
         array->end = i;
     array->contents[i] = el;
 error:
@@ -48,7 +48,7 @@ error:
 
 static inline void *DArray_get(DArray * array, int i)
 {
-    check(i < array->max, "darray attempt to get past max.");
+    check(i < array->max, "darray attempt to get past max");
     return array->contents[i];
 error:
     return NULL;
@@ -66,7 +66,7 @@ static inline void *DArray_remove(DArray * array, int i)
 static inline void *DArray_new(DArray * array)
 {
     check(array->element_size > 0,
-            "Can't use DArray_new on 0 size darrays");
+            "Can't use DArray_new on 0 size darrays.");
 
     return calloc(1, array->element_size);
 
@@ -76,4 +76,4 @@ error:
 
 #define DArray_free(E) free((E))
 
-#endif 
+#endif
