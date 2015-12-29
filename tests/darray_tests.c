@@ -7,10 +7,10 @@ static int *val2 = NULL;
 
 char *test_create()
 {
-    DArray *array = DArray_create(sizeof(int), 100);
-    mu_assert(array != NULL, "Failed to create darray.");
-    mu_assert(array->contents != NULL, "contents are in wrong darray.");
-    mu_assert(array->end == 0, "end not in right spot.");
+    array = DArray_create(sizeof(int), 100);
+    mu_assert(array != NULL, "DArray_create failed.");
+    mu_assert(array->contents != NULL, "contents are wrong in darray");
+    mu_assert(array->end == 0, "end isn't at the right spot");
     mu_assert(array->element_size == sizeof(int),
             "element size is wrong.");
     mu_assert(array->max == 100, "wrong max length on initial size.");
@@ -27,11 +27,13 @@ char *test_destroy()
 
 char *test_new()
 {
+    debug("Initializing val");
     val1 = DArray_new(array);
-    mu_assert(val1 != NULL, "Failed to make a new element.");
+    mu_assert(val1 != NULL, "failed to make a new element");
+    debug("Finished initializing val and checking if not NULL");
 
     val2 = DArray_new(array);
-    mu_assert(val2 != NULL, "Failed to make a new element.");
+    mu_assert(val2 != NULL, "failed to make a new element");
 
     return NULL;
 }
@@ -60,7 +62,7 @@ char *test_remove()
     mu_assert(DArray_get(array, 0) == NULL, "Should be gone.");
     DArray_free(val_check);
 
-    val_check = DArray_remove(array, 0);
+    val_check = DArray_remove(array, 1);
     mu_assert(val_check != NULL, "Should not get a NULL");
     mu_assert(*val_check == *val2, "Should get the second value.");
     mu_assert(DArray_get(array, 1) == NULL, "Should be gone.");
