@@ -13,7 +13,6 @@ char *test_create()
     list = List_create();
     list2 = List_create();
     mu_assert(list != NULL, "Failed to create list.");
-    mu_assert(list2 != NULL, "Failed to create list.");
 
     return NULL;
 }
@@ -23,7 +22,6 @@ char *test_destroy()
     List_clear_destroy(list);
 
     return NULL;
-
 }
 
 char *test_push_pop()
@@ -122,15 +120,35 @@ char *test_join()
     // Just going to join list2 twice
     List *joined_list = List_join(list2, list2);
 
+    mu_assert(List_count(joined_list) == 6, "Wrong count after join.");
     mu_assert(List_first(list2) == List_first(joined_list),
             "Wrong first element on join.");
     mu_assert(List_count(joined_list) == List_count(list2) + List_count(list2),
             "Wrong count after join.");
+
     return NULL;
 }
 
 char *test_split()
 {
+
+    List *split_list = List_create();
+    List_push(split_list, test1);
+    List_push(split_list, test2);
+    List_push(split_list, test3);
+    List_push(split_list, test1);
+    List_push(split_list, test2);
+    List_push(split_list, test3);
+    List *split1 = List_create();
+    List *split2 = List_create();
+
+    List_split(split_list, 2, split1, split2);
+
+    mu_assert(List_count(split1) == 3, "Wrong count on split1.");
+    mu_assert(List_count(split2) == 3, "Wrong count on split2.");
+    mu_assert(List_first(split1) == test1, "Wrong first value on split1");
+    mu_assert(List_first(split2) == test1, "Wrong first value on split2")
+
     return NULL;
 }
 
@@ -143,10 +161,10 @@ char *all_tests()
     mu_run_test(test_unshift);
     mu_run_test(test_remove);
     mu_run_test(test_shift);
-    mu_run_test(test_destroy);
     mu_run_test(test_copy);
     mu_run_test(test_join);
-    mu_run_test(test_split); 
+    mu_run_test(test_split);
+    mu_run_test(test_destroy);
 
     return NULL;
 }

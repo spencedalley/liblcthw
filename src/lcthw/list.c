@@ -38,6 +38,7 @@ void List_clear_destroy(List * list)
     }
     free(list->last);
     free(list);
+
 }
 
 void List_push(List * list, void *value)
@@ -148,7 +149,7 @@ void *List_add(List * from_list, List * to_list)
         List_push(to_list, cur->value);
     }
 
-    return NULL; 
+    return NULL;
 }
 
 List *List_join(List * list1, List * list2)
@@ -161,18 +162,27 @@ List *List_join(List * list1, List * list2)
     return joined_list;
 }
 
-List *List_split(List * list, int index)
+void *List_split(List * list, int index, List * list1, List * list2)
 {
-    // How do you return multiple structs?
+    int counter = 0;
 
-    List * list1 = List_create(); // First list for split
-    //List * list2 = List_create(); // second list for split
-
-    check(index < List_count(list) && index > 0,
+    check(index < List_count(list) && index > 0 && List_count(list) > 1,
         "Index out of bounds: %d", index);
 
-    return list1;
+    LIST_FOREACH(list, first, next, cur) {
+        if (counter <= index) {
+            List_push(list1, cur->value);
+        } else if (counter > index) {
+            List_push(list2, cur->value);
+        }
+        counter++;
+    }
+
+    check(List_count(list1) > 0 && List_count(list2) > 0,
+            "Improper splitting of lists (i.e. counts are less than 0)");
+
+    return NULL;
 
 error:
-    return list;
+    return NULL;
 }

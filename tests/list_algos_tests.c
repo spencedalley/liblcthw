@@ -87,6 +87,8 @@ char *all_tests()
     mu_run_test(test_bubble_sort);
     mu_run_test(test_merge_sort);
 
+    debug("THIS IS A TEST COMMENT");
+
     return NULL;
 }
 

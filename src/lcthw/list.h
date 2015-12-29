@@ -41,10 +41,10 @@ void *List_shift(List * list);
 
 void *List_remove(List * list, ListNode * node);
 
-void *List_add(List * from_list, List * to_list); 
+void *List_add(List * from_list, List * to_list);
 List *List_copy(List * list);
 List *List_join(List * list1, List * list2);
-List *List_split(List * list, int index);
+void *List_split(List * list, int index, List * list1, List * list2);
 
 #define LIST_FOREACH(L, S, M, V) ListNode *_node = NULL;\
                                 ListNode *V = NULL;\
