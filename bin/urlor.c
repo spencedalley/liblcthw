@@ -48,15 +48,18 @@ error:
     return NULL;
 }
 
-bstring match_url(TSTree * routes, bstring url)
+bstring match_url(TSTree * routes, bstring url, int *out_prefix)
 {
     bstring route = TSTree_search(routes, bdata(url), blength(url));
 
     if (route == NULL) {
+        *out_prefix = 1;
         printf("No exact match found, trying prefix.\n");
         route = TSTree_search_prefix(routes, bdata(url), blength(url));
+    } else {
+        *out_prefix = 0;
     }
-
+    
     return route;
 }
 
@@ -93,6 +96,7 @@ int main(int argc, char *argv[])
     bstring url = NULL;
     bstring route = NULL;
     TSTree *routes = NULL;
+    int prefix = 0;
 
     check(argc == 2, "USAGE: urlor <urlfile>");
 
@@ -104,10 +108,14 @@ int main(int argc, char *argv[])
         url = read_line("URL> ");
         check_debug(url != NULL, "Goodbye");
 
-        route = match_url(routes, url);
+        route = match_url(routes, url, &prefix);
 
         if (route) {
-            printf("MATCH: %s == %s\n", bdata(url), bdata(route));
+            if (prefix) {
+                printf("PREFIX MATCH: %s == %s\n", bdata(url), bdata(route));
+            } else {
+                printf("EXACT MATCH: %s == %s\n", bdata(url), bdata(route));
+            }
         } else {
             printf("FAIL: %s\n", bdata(url));
         }
