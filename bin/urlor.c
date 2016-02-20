@@ -4,6 +4,7 @@
 TSTree *add_route_data(TSTree * routes, bstring line)
 {
     struct bstrList *data = bsplit(line, ' ');
+    check(data != NULL, "Bad data from bsplit.");
     check(data->qty == 2, "Line '%s' does not have two columns",
             bdata(line));
 
@@ -17,6 +18,7 @@ TSTree *add_route_data(TSTree * routes, bstring line)
     return routes;
 
 error:
+    if (data) bstrListDestroy(data);
     return NULL;
 }
 
@@ -33,7 +35,7 @@ TSTree *load_routes(const char *file)
         check(btrimws(line) == BSTR_OK, "Failed to trim line.");
         routes = add_route_data(routes, line);
         check(routes != NULL, "Failed to add to route.");
-        bdestroy(line);
+        bdestroy(line); line = NULL; // For error cleanup
     }
 
     fclose(routes_map);
@@ -70,6 +72,7 @@ bstring read_line(const char *prompt)
     return result;
 
 error:
+    if (result) bdestroy(result);
     return NULL;
 }
 
@@ -96,6 +99,7 @@ int main(int argc, char *argv[])
     routes = load_routes(argv[1]);
     check(routes != NULL, "Your route file has an error.");
 
+    // BUG: Only CTRL-C can make you exit this?
     while (1) {
         url = read_line("URL> ");
         check_debug(url != NULL, "Goodbye");
@@ -115,6 +119,6 @@ int main(int argc, char *argv[])
     return 0;
 
 error:
-    destroy_routes(routes);
+    if (routes) destroy_routes(routes);
     return 1;
 }
