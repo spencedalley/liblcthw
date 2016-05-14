@@ -59,7 +59,7 @@ bstring match_url(TSTree * routes, bstring url, int *out_prefix)
     } else {
         *out_prefix = 0;
     }
-    
+
     return route;
 }
 
