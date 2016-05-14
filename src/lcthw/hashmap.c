@@ -98,6 +98,7 @@ static inline DArray *Hashmap_find_bucket(Hashmap * map, void *key,
         int create,
         uint32_t * hash_out)
 {
+    check(map != NULL, "Invalid map given");
     uint32_t hash = map->hash(key);
     int bucket_n = hash % DEFAULT_NUMBER_OF_BUCKETS;
     check(bucket_n >= 0, "Invalid bucket found: %d", bucket_n);
@@ -140,16 +141,20 @@ error:
 static inline int Hashmap_get_node(Hashmap * map, uint32_t hash,
         DArray * bucket, void *key)
 {
+    check(map != NULL, "Invalid map");
+    check(bucket != NULL, "Invalid bucket");
     int i = 0;
 
     for (i = 0; i < DArray_end(bucket); i++) {
         debug("TRY: %d", i);
         HashmapNode *node = DArray_get(bucket, i);
+        check(node != NULL, "Should get a node back");
         if (node->hash == hash && map->compare(node->key, key) == 0) {
             return i;
         }
     }
 
+error: // fallthrough
     return -1;
 }
 

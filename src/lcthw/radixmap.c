@@ -24,6 +24,7 @@ RadixMap *RadixMap_create(size_t max)
 
 	return map;
 error:
+	if (map) RadixMap_destroy(map);
 	return NULL;
 }
 
