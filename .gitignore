@@ -31,3 +31,5 @@
 .dSYM
 .DS_Store
 *.swp
+
+*.dSYM/
