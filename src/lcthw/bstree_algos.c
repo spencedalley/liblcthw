@@ -1,33 +1,36 @@
 #include <lcthw/bstree.h> 
 #include <lcthw/bstrlib.h> 
+#include <lcthw/dbg.h> 
 #include <lcthw/queue.h> 
+#include <lcthw/stack.h> 
 
 BSTreeNode *BSTree_BFS(BSTree * map, void * val)
 {
 	Queue *q = Queue_create(); 
-	BSTreeNode *node = NULL; 
-	Queue_unshift(map->root); 
+	BSTreeNode *node = map->root; 
 
 	do {
-		node = Queue_pop(q); 
 		if(node->data == val) {
-			break; 
+			break;  
 		} else if(node->left || node->right) {
 			if (node->left) Queue_unshift(q, node->left); 
 			if (node->right) Queue_unshift(q, node->right); 
-		} else {
-			node = NULL;  
-		}
+		} 
+		node = Queue_pop(q);
 	} while(node); 
 
 	// Free up memory 
 	Queue_clear_destroy(q); 
 
-	return node; 
+	if(node) return node; 
+	else return NULL; 
+
 }
 
 BSTreeNode *BSTree_DFS(BSTreeNode *node, void *val)
 {
+	check(node != NULL, "Node is NULL"); 
+
 	if(node->data == val) return node;
 
 	if(node->left) {
@@ -39,6 +42,7 @@ BSTreeNode *BSTree_DFS(BSTreeNode *node, void *val)
 		if(node != NULL) return node; 
 	}
 
+error: 
 	return NULL; 
 }
 
@@ -63,5 +67,15 @@ void BSTree_invert(BSTree *map)
 		} 
 
 	} while(node1 != NULL || node2 != NULL); 
+
+error: 
+	return; 
+}
+
+int BSTree_sibling_distance(BSTree *map, void *val1, void *val2) 
+{
+	Queue *q = Queue_create(); 
+
+	return 0; 
 }
 
