@@ -1,17 +1,34 @@
-liblcthw
-========================================
-Implementation of common algorithms and data structures in C
+## liblcthw Project
+The liblcthw project is just my implementation of common algorithms and data structures in the C-language. 
 
-Installation: 
-========================================
-To install liblcthw, download it, cd to the directory, and run the following commands: 
+### Setup: 
+Installing liblcthw using one of the following operating systems: 
 
-    $ ./configure
-    $ make install
+* Some version of MacOSX
+* Some version of Linux
 
-Running Tests: 
-========================================
-Tests are run simply by: 
+There are no dependencies that need to be installed for this project to work on your machine. 
 
-    $ make
+To install liblcthw, download the project, cd to the root directory, and run the following commands: 
+
+```
+$ ./configure
+
+$ make install
+```
+
+The project setup is now complete and should be installed on your system. 
+
+### Running Tests: 
+All the tests for this module are located in the `tests` directory. 
+
+To run the tests, open up a terminal, cd to the root of the project, and type `make` to run the tests. You should get an output like the text below: 
+
+All tests should pass. 
+
+## Implementation Notes: 
+[Add notes]
+
+
+
 
